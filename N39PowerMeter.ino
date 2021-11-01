@@ -15,7 +15,7 @@ ESP8266WebServer server(80);
 
 volatile bool first_pulse = true;
 volatile unsigned long pulse_time[2] = {};
-volatile unsigned long delta = -1;
+volatile unsigned long delta = 0;
 volatile unsigned long pulse_counter = 0;
 
 ICACHE_RAM_ATTR void IntCallback() {
