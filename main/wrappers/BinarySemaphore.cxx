@@ -3,31 +3,31 @@
 namespace util::wrappers
 {
 
-BinarySemaphore::BinarySemaphore() : _handle(xSemaphoreCreateBinary())
+BinarySemaphore::BinarySemaphore() : semaphoreHandle(xSemaphoreCreateBinary())
 {
-    assert(_handle != nullptr);
+    assert(semaphoreHandle != nullptr);
 }
 
 BinarySemaphore::~BinarySemaphore()
 {
-    if (_handle != nullptr)
+    if (semaphoreHandle != nullptr)
     {
-        vSemaphoreDelete(_handle);
+        vSemaphoreDelete(semaphoreHandle);
     }
 }
 
 BaseType_t BinarySemaphore::take(TickType_t blocktime)
 {
-    return xSemaphoreTake(_handle, blocktime);
+    return xSemaphoreTake(semaphoreHandle, blocktime);
 }
 
 BaseType_t BinarySemaphore::giveFromISR(BaseType_t *pxHigherPriorityTaskWoken)
 {
-    return xSemaphoreGiveFromISR(_handle, pxHigherPriorityTaskWoken);
+    return xSemaphoreGiveFromISR(semaphoreHandle, pxHigherPriorityTaskWoken);
 }
 BaseType_t BinarySemaphore::give()
 {
-    return xSemaphoreGive(_handle);
+    return xSemaphoreGive(semaphoreHandle);
 }
 
 } // namespace util::wrappers

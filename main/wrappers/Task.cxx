@@ -9,14 +9,16 @@ EventGroupHandle_t Task::syncEventGroup = xEventGroupCreate();
 
 Task::Task(TaskFunction_t taskCode, const char *name, uint16_t stackDepth, void *parameter,
            UBaseType_t priority)
-    : _taskCode(taskCode), _parameter(parameter)
+    : taskCode(taskCode), parameters(parameter)
 {
     assert(taskCode != nullptr);
-    xTaskCreate(&Task::taskMain, name, stackDepth * 4, reinterpret_cast<void *>(this), priority,
-                &_handle); // ESP-IDF want bytes, not words as stack size ...
-    assert(_handle != nullptr);
 
-    registerTask(_handle);
+    const size_t StackSizeInBytes = stackDepth * 4; // ESP-IDF want bytes, not words as stack size
+    xTaskCreate(&Task::taskMain, name, StackSizeInBytes, reinterpret_cast<void *>(this), priority,
+                &taskHandle);
+
+    assert(taskHandle != nullptr);
+    registerTask(taskHandle);
 }
 
 void Task::registerTask(TaskHandle_t handle)
@@ -39,21 +41,21 @@ BaseType_t Task::notifyWait(uint32_t ulBitsToClearOnEntry, uint32_t ulBitsToClea
 
 BaseType_t Task::notify(uint32_t ulValue, eNotifyAction eAction)
 {
-    return xTaskNotify(_handle, ulValue, eAction);
+    return xTaskNotify(taskHandle, ulValue, eAction);
 }
 
 BaseType_t Task::notifyFromISR(uint32_t ulValue, eNotifyAction eAction,
                                BaseType_t *pxHigherPriorityTaskWoken)
 {
 
-    return xTaskNotifyFromISR(_handle, ulValue, eAction, pxHigherPriorityTaskWoken);
+    return xTaskNotifyFromISR(taskHandle, ulValue, eAction, pxHigherPriorityTaskWoken);
 }
 
 Task::~Task()
 {
-    if (_handle != nullptr)
+    if (taskHandle != nullptr)
     {
-        vTaskDelete(_handle);
+        vTaskDelete(taskHandle);
     }
 }
 
@@ -61,7 +63,7 @@ Task::~Task()
 {
     Task *task = reinterpret_cast<Task *>(instance);
     xEventGroupWaitBits(syncEventGroup, AllTasksWaitFlag, pdFALSE, pdFALSE, portMAX_DELAY);
-    task->_taskCode(task->_parameter);
+    task->taskCode(task->parameters);
     for (;;)
     {
         vTaskDelay(portMAX_DELAY);
@@ -70,7 +72,7 @@ Task::~Task()
 
 void Task::notifyGive()
 {
-    xTaskNotifyGive(_handle);
+    xTaskNotifyGive(taskHandle);
 }
 
 void Task::notifyTake(const TickType_t waittime)

@@ -1,8 +1,7 @@
 #pragma once
 
 /// Priority values.
-typedef enum
-{
+using osPriority_t = enum {
     osPriorityNone = 0,              ///< No priority (not initialized).
     osPriorityIdle = 1,              ///< Reserved for Idle thread.
     osPriorityLow = 8,               ///< Priority: low
@@ -56,4 +55,4 @@ typedef enum
     osPriorityISR = 56,              ///< Reserved for ISR deferred thread.
     osPriorityError = -1,            ///< System cannot determine priority or illegal priority.
     osPriorityReserved = 0x7FFFFFFF  ///< Prevents enum down-size compiler optimization.
-} osPriority_t;
+};

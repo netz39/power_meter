@@ -46,9 +46,9 @@ public:
     static void applicationIsReadyStartAllTasks();
 
 protected:
-    TaskHandle_t _handle{nullptr};
-    TaskFunction_t _taskCode;
-    void *_parameter;
+    TaskHandle_t taskHandle{nullptr};
+    TaskFunction_t taskCode;
+    void *parameters;
 
     [[noreturn]] static void taskMain(void *);
 

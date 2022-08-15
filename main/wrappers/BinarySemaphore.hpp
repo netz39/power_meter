@@ -21,7 +21,7 @@ public:
     BaseType_t give();
 
 private:
-    SemaphoreHandle_t _handle{nullptr};
+    SemaphoreHandle_t semaphoreHandle{nullptr};
 };
 
 } // namespace util::wrappers

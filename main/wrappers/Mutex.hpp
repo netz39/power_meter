@@ -19,6 +19,6 @@ public:
     virtual void unlock() override;
 
 private:
-    SemaphoreHandle_t m_mutex;
+    SemaphoreHandle_t mutexHandle;
 };
 } // namespace util::wrappers
