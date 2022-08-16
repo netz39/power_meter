@@ -1,10 +1,6 @@
-idf_component_register(SRCS 
-    wrappers/BinarySemaphore.cxx
-    wrappers/Mutex.cxx
-    wrappers/sync.cxx
-    wrappers/Task.cxx
-
+idf_component_register(SRCS
     Application.cxx
+    Button.cxx
     StatusLed.cxx
     Wireless.cxx
 
@@ -12,7 +8,9 @@ idf_component_register(SRCS
 
 
 add_subdirectory(components/oled-driver)
+add_subdirectory(components/util)
 
 target_link_libraries(${COMPONENT_LIB} PUBLIC 
                 oled-driver
+                util
                 )

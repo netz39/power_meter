@@ -1,4 +1,4 @@
-#include "BinarySemaphore.hpp"
+#include "wrappers/BinarySemaphore.hpp"
 
 namespace util::wrappers
 {

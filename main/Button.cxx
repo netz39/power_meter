@@ -1,11 +1,8 @@
-#include <util/Button.hpp>
+#include "Button.hpp"
 
-namespace util
-{
 bool Button::isPressing() const
 {
-    return (internalState == InternalState::LongPress ||
-            internalState == InternalState::SuperLongPress);
+    return (internalState == InternalState::LongPress);
 }
 
 void Button::update(const units::si::Time timePassed)
@@ -19,7 +16,7 @@ void Button::update(const units::si::Time timePassed)
         if (state == State::Pressed)
         {
             internalState = InternalState::Pressed;
-            loadTimer();
+            resetTimer();
         }
         break;
 
@@ -41,20 +38,6 @@ void Button::update(const units::si::Time timePassed)
         break;
 
     case InternalState::LongPress:
-        updateTimer(timePassed);
-        if (state == State::NotPressed)
-        {
-            buttonCallback(Action::StopLongPress);
-            internalState = InternalState::Idle;
-        }
-        else if (getPassedTime() >= SuperLongPressTime)
-        {
-            buttonCallback(Action::SuperLongPress);
-            internalState = InternalState::SuperLongPress;
-        }
-        break;
-
-    case InternalState::SuperLongPress:
         if (state == State::NotPressed)
         {
             buttonCallback(Action::StopLongPress);
@@ -64,9 +47,9 @@ void Button::update(const units::si::Time timePassed)
     }
 }
 
-void Button::loadTimer()
+void Button::resetTimer()
 {
-    pressTimer = TimerReloadValue;
+    pressTimer = 0.0_s;
 }
 
 void Button::updateTimer(const units::si::Time timePassed)
@@ -84,5 +67,3 @@ void Button::buttonCallback(Action action)
     if (callback)
         callback(action);
 }
-
-} // namespace util
