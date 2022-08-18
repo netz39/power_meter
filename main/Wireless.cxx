@@ -1,4 +1,5 @@
 #include "Wireless.hpp"
+#include "Timebase.hpp"
 #include "loginData.hpp"
 #include "wrappers/sync.hpp"
 
@@ -18,6 +19,7 @@ void Wireless::taskMain()
 {
     startNvs();
     startStation();
+    Timebase::initTimeSychronization();
 
     while (true)
     {
