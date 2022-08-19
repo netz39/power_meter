@@ -5,6 +5,9 @@
 
 #include "wrappers/sync.hpp"
 
+#include "date/date.h"
+#include <chrono>
+
 using namespace util::wrappers;
 
 // CAUTION, this is not Y2K38-issue aware, see
@@ -12,24 +15,21 @@ using namespace util::wrappers;
 // for more details and possible workaround
 // (at the moment of writing for fixing its needed compiling your own toolchain from stratch, why??)
 
-/// This ensures we are getting the current time from time server. 
-/// Time synchronization will happens every [CONFIG_LWIP_SNTP_UPDATE_DELAY] milliseconds (see sdkconfig)
+/// This ensures we are getting the current UTC from time server.
+/// Time synchronization will happens every
+/// [CONFIG_LWIP_SNTP_UPDATE_DELAY] milliseconds (see sdkconfig)
 class Timebase
 {
 public:
     static void initTimeSychronization()
     {
-        ESP_LOGI("sntp", "Initializing SNTP");
+        ESP_LOGI("timebase", "Initializing SNTP");
         sntp_setoperatingmode(SNTP_OPMODE_POLL);
         sntp_setservername(0, "pool.ntp.org");
         sntp_set_time_sync_notification_cb(timeSynchronizationCallback);
         sntp_init();
-        ESP_LOGI("sntp", "Update system time every %d minutes.",
+        ESP_LOGI("timebase", "Update system time every %d minutes.",
                  CONFIG_LWIP_SNTP_UPDATE_DELAY / 1000 / 60);
-
-        // set timezone to Berlin (incl. winter/summer-time)
-        setenv("TZ", "CET-1CEST,M3.5.0,M10.5.0/3", 1);
-        tzset();
     }
 
     static void timeSynchronizationCallback(struct timeval *)
@@ -41,29 +41,14 @@ public:
 
     static void printSystemTime()
     {
-        char buffer[64];
-        time_t currentTime;
-        static tm timeinfo;
-
-        time(&currentTime);
-        localtime_r(&currentTime, &timeinfo);
-
-        strftime(buffer, sizeof(buffer), "%c", &timeinfo);
-        ESP_LOGI("sntp", "The current date/time in Berlin is: %s", buffer);
-        ESP_LOGI("sntp", "The current UTC in milliseconds is: %" PRId64, getUTCinMilliseconds());
+        ESP_LOGI("timebase", "The current UTC is %s",
+                 getISOCurrentTimestamp<std::chrono::milliseconds>().c_str());
     }
 
-    static int64_t getUTCinSeconds()
+    template <class Precision>
+    static std::string getISOCurrentTimestamp()
     {
-        struct timeval tvNow;
-        gettimeofday(&tvNow, NULL);
-        return tvNow.tv_sec;
-    }
-
-    static int64_t getUTCinMilliseconds()
-    {
-        struct timeval tvNow;
-        gettimeofday(&tvNow, NULL);
-        return (int64_t)tvNow.tv_sec * 1000L + (int64_t)tvNow.tv_usec / 1000L;
+        auto now = std::chrono::system_clock::now();
+        return date::format("%FT%TZ", date::floor<Precision>(now));
     }
 };
