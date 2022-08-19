@@ -6,11 +6,8 @@ idf_component_register(SRCS
 
     INCLUDE_DIRS ".")
 
-
-add_subdirectory(components/oled-driver)
 add_subdirectory(components/util)
 
-target_link_libraries(${COMPONENT_LIB} PUBLIC 
-                oled-driver
+target_link_libraries(${COMPONENT_LIB} PUBLIC
                 util
                 )
