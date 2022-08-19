@@ -26,20 +26,19 @@ public:
 
     using Callback = std::function<void(Action action)>;
 
-    explicit Button(Gpio buttonGpio, bool isInverted = false, Callback callback = nullptr)
-        : buttonGpio{buttonGpio}, isInverted{isInverted}, callback{callback} {};
-
-    Button(Gpio &buttonGpio, const Time debouncingTime, const Time longPressTime = 500.0_ms,
-           bool isInverted = false, Callback callback = nullptr)
-        : buttonGpio{buttonGpio}, DebounceTime(debouncingTime), LongPressTime{longPressTime},
-          isInverted{isInverted}, callback{callback} {};
+    Button(Gpio &buttonGpio, Callback callback, const Time debouncingTime = 20.0_ms,
+           const Time longPressTime = 500.0_ms, bool isInverted = false)
+        : buttonGpio{buttonGpio},       //
+          buttonCallback{callback},     //
+          DebounceTime(debouncingTime), //
+          LongPressTime{longPressTime}, //
+          isInverted{isInverted}        //
+    {
+        buttonGpio.init(gpio_mode_t::GPIO_MODE_INPUT);
+        buttonGpio.setPullMode(isInverted ? GPIO_PULLDOWN_ONLY : GPIO_PULLUP_ONLY);
+    };
 
     void update(Time timePassed);
-
-    void setCallback(Callback newCallback)
-    {
-        callback = std::move(newCallback);
-    }
 
     /// returns true if button state is long pressed at the moment
     [[nodiscard]] bool isPressing() const;
@@ -51,10 +50,10 @@ private:
 
     Gpio &buttonGpio;
 
+    Callback buttonCallback;
     const Time DebounceTime = 20.0_ms;
     const Time LongPressTime = 500.0_ms;
     bool isInverted = false;
-    Callback callback;
 
     enum class InternalState
     {
@@ -65,6 +64,4 @@ private:
 
     InternalState internalState = InternalState::Idle;
     Time pressTimer{};
-
-    void buttonCallback(Action action);
 };

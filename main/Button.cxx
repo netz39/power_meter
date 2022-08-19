@@ -61,9 +61,3 @@ units::si::Time Button::getPassedTime() const
 {
     return pressTimer;
 }
-
-void Button::buttonCallback(Action action)
-{
-    if (callback)
-        callback(action);
-}
