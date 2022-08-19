@@ -1,5 +1,6 @@
 #pragma once
 
+#include "PulseDetector.hpp"
 #include "StatusLed.hpp"
 #include "Wireless.hpp"
 
@@ -21,6 +22,7 @@ private:
 
     Wireless wireless{isConnected};
     StatusLed statusLed{isConnected};
+    PulseDetector pulseDetector{};
 
     static inline Application *instance{nullptr};
 };
