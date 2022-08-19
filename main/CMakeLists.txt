@@ -6,8 +6,10 @@ idf_component_register(SRCS
 
     INCLUDE_DIRS ".")
 
+add_subdirectory(components/date)
 add_subdirectory(components/util)
 
-target_link_libraries(${COMPONENT_LIB} PUBLIC
+target_link_libraries(${COMPONENT_LIB} PUBLIC 
+                date
                 util
                 )
