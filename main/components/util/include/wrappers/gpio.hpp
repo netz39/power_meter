@@ -8,7 +8,7 @@ namespace util::wrappers
 class Gpio
 {
 public:
-    constexpr Gpio(gpio_num_t pin) : pin{pin} {};
+    explicit constexpr Gpio(gpio_num_t pin) : pin{pin} {};
 
     void init(gpio_mode_t mode)
     {

@@ -1,9 +1,9 @@
 #pragma once
 
+#include "freertos/FreeRTOS.h"
 #include "units/si/frequency.hpp"
 #include "units/si/scalar.hpp"
 #include "units/si/time.hpp"
-#include <FreeRTOS.h>
 #include <cstdint>
 
 constexpr uint32_t toMilliSeconds(const units::si::Time time)

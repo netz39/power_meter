@@ -1,10 +1,9 @@
 #pragma once
 
 #include "wrappers/Task.hpp"
+#include "wrappers/gpio.hpp"
 
-using util::wrappers::TaskWithMemberFunctionBase;
-
-class StatusLed : public TaskWithMemberFunctionBase
+class StatusLed : public util::wrappers::TaskWithMemberFunctionBase
 {
 public:
     explicit StatusLed(bool &isConnected)
@@ -17,4 +16,6 @@ protected:
 
 private:
     bool &isConnected;
+
+    util::wrappers::Gpio ledGpio{gpio_num_t::GPIO_NUM_5};
 };
