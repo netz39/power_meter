@@ -1,6 +1,9 @@
-#include "Wireless.hpp"
-#include "Timebase.hpp"
+// create a header named "loginData.hpp" (will be ignored by git)
+// there you must define "WifiSsid" and "WifiPassword"
 #include "loginData.hpp"
+
+#include "Timebase.hpp"
+#include "Wireless.hpp"
 #include "wrappers/sync.hpp"
 
 #include "esp_event.h"
