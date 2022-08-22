@@ -1,12 +1,12 @@
 # power meter (firmware for ESP32)
 
-The ESP32 should detect the pulses outputing by a power meter and send it to an endpoint (REST-API). The endpoint used in Netz39 is implemented **[here](https://github.com/netz39/power-meter-pulse-gateway)**.
+The ESP32 detect the pulses outputing by a power meter and send it to an endpoint (REST-API). The endpoint used in Netz39 is implemented **[here](https://github.com/netz39/power-meter-pulse-gateway)**.
 
 ## Configuration
 
-Currently the configuration are hardcoded. In the future you may change it to dynamic settings configuring over TCP or UART.
+Currently the configurations are hardcoded. In the future you may change it to dynamic settings configuring over TCP or UART.
 
-Here is an overview of neccessary (not all) settings and their file locations:
+Here is an overview of neccessary (not all) constants and their file locations:
 
 | setting name       | description | file |
 |--------------------|-------------|------|
@@ -24,7 +24,7 @@ Here is an overview of neccessary (not all) settings and their file locations:
 
 ### Pulse Message
 
-Pulses are encoded as messages with a [ISO8601 timestamp](https://en.wikipedia.org/wiki/ISO_8601) in the JSON form
+Pulses are encoded as messages with a [ISO8601 timestamp](https://en.wikipedia.org/wiki/ISO_8601) in the JSON form:
 ```json
 {
   "timestamp": "2022-08-22T02:57:55,123Z"
@@ -33,7 +33,7 @@ Pulses are encoded as messages with a [ISO8601 timestamp](https://en.wikipedia.o
 
 ### REST
 
-At every detected pulse , a message will post at given endpoint with the above pulse message JSON form.
+At every detected pulse , a message will post to the given endpoint with the above pulse message in JSON form.
 
 ## Deployment
 
@@ -44,7 +44,7 @@ The code is written in C++17 and uses the [ESP-IDF](https://github.com/espressif
 
 ## Build
 
-Please consult the [documention](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/get-started/linux-macos-setup.html#build-the-project) of ESP-IDF.
+Please consult the [documention](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/get-started/linux-macos-setup.html#build-the-project) of ESP-IDF to compile that project. 
 
 
 ## Maintainers
@@ -53,4 +53,4 @@ Please consult the [documention](https://docs.espressif.com/projects/esp-idf/en/
 
 ## License
 
-[MIT](LICENSE.txt) © 2022 Netz39 e.V. and contributors
+[MIT](LICENSE) © 2022 Netz39 e.V. and contributors
