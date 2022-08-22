@@ -35,9 +35,9 @@ void HttpClient::taskMain()
         if (result.has_value())
         {
             std::string dataToSend;
-            dataToSend += "{ \"timestamp\": ";
+            dataToSend += "{ \"timestamp\": \"";
             dataToSend += Timebase::getISOTimestamp<std::chrono::milliseconds>(result.value());
-            dataToSend += " }";
+            dataToSend += "\" }";
 
             if (postDataAsJson(dataToSend))
             {

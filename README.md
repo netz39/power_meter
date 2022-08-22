@@ -27,7 +27,7 @@ Here is an overview of neccessary (not all) settings and their file locations:
 Pulses are encoded as messages with a [ISO8601 timestamp](https://en.wikipedia.org/wiki/ISO_8601) in the JSON form
 ```json
 {
-  "timestamp": 2022-08-22T02:57:55,123Z
+  "timestamp": "2022-08-22T02:57:55,123Z"
 }
 ```
 
