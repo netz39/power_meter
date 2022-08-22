@@ -4,13 +4,8 @@
             "name": "ESP-IDF",
             "cStandard": "c11",
             "cppStandard": "c++17",
-            "includePath": [
-                "${config:idf.espIdfPath}/components/**",
-                "${config:idf.espIdfPath}/components/oled-driver/include",
-                "${config:idf.espIdfPath}/components/oled-driver/fonts",
-                "${workspaceFolder}/**"
-            ],
-            "compilerPath": "${config:idf.toolsPath}/tools/xtensa-esp32-elf/esp-2021r2-patch3-8.4.0/xtensa-esp32-elf/bin/xtensa-esp32-elf-gcc"
+            "compilerPath": "${config:idf.toolsPath}/tools/xtensa-esp32-elf/esp-2021r2-patch3-8.4.0/xtensa-esp32-elf/bin/xtensa-esp32-elf-gcc",
+            "compileCommands": "${workspaceFolder}/build/compile_commands.json"
         }
     ],
     "version": 4
