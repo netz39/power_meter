@@ -7,9 +7,12 @@
 
 using namespace util::wrappers;
 
+static constexpr auto Tag = "PulseDetector";
+
 [[noreturn]] void PulseDetector::taskMain()
 {
     sync::waitForAll(sync::TimeIsSynchronized);
+    ESP_LOGI(Tag, "Start pulse detection.");
 
     auto lastWakeTime = xTaskGetTickCount();
 
@@ -28,7 +31,7 @@ void PulseDetector::pulseCallback(Button::Action action)
     {
     case Button::Action::ShortPress:
     {
-        ESP_LOGI("pulseDetector", "valid pulse arrived");
+        ESP_LOGI(Tag, "valid pulse arrived");
         Timebase::printSystemTime();
 
         // ToDo: send to queue
@@ -36,11 +39,11 @@ void PulseDetector::pulseCallback(Button::Action action)
     break;
 
     case Button::Action::LongPress:
-        ESP_LOGE("pulseDetector", "Long press arrived. This was not expected in this case. ");
+        ESP_LOGE(Tag, "Long press arrived. This was not expected in this case. ");
         break;
 
     case Button::Action::StopLongPress:
-        ESP_LOGW("pulseDetector", "Long press stopped.");
+        ESP_LOGW(Tag, "Long press stopped.");
         break;
 
     default:

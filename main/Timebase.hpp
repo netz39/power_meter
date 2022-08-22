@@ -21,32 +21,38 @@ using namespace util::wrappers;
 class Timebase
 {
 public:
+	static constexpr auto PrintTag = "Timebase";
+
+    //--------------------------------------------------------------------------------------------------
     static void initTimeSychronization()
     {
-        ESP_LOGI("timebase", "Initializing SNTP");
+        ESP_LOGI(PrintTag, "Initializing SNTP");
         sntp_setoperatingmode(SNTP_OPMODE_POLL);
         sntp_setservername(0, "pool.ntp.org");
         sntp_set_time_sync_notification_cb(timeSynchronizationCallback);
         sntp_init();
-        ESP_LOGI("timebase", "Update system time every %d minutes.",
+        ESP_LOGI(PrintTag, "Update system time every %d minutes.",
                  CONFIG_LWIP_SNTP_UPDATE_DELAY / 1000 / 60);
     }
 
+    //--------------------------------------------------------------------------------------------------
     static void timeSynchronizationCallback(struct timeval *)
     {
-        ESP_LOGI("sntp", "Time synchronization event arrived.");
+        ESP_LOGI(PrintTag, "Time synchronization event arrived.");
         printSystemTime();
         sync::signal(sync::TimeIsSynchronized);
     }
 
+    //--------------------------------------------------------------------------------------------------
     static void printSystemTime()
     {
-        ESP_LOGI("timebase", "The current UTC is %s",
+        ESP_LOGI(PrintTag, "The current UTC is %s",
                  getISOCurrentTimestamp<std::chrono::milliseconds>().c_str());
     }
 
+    //--------------------------------------------------------------------------------------------------
     template <class Precision>
-    static std::string getISOCurrentTimestamp()
+    [[nodiscard]] static std::string getISOCurrentTimestamp()
     {
         auto now = std::chrono::system_clock::now();
         return date::format("%FT%TZ", date::floor<Precision>(now));

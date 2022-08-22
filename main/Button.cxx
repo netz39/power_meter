@@ -5,6 +5,7 @@ bool Button::isPressing() const
     return (internalState == InternalState::LongPress);
 }
 
+//--------------------------------------------------------------------------------------------------
 void Button::update(const units::si::Time timePassed)
 {
     // logical XORing pin state with inverted state
@@ -47,16 +48,19 @@ void Button::update(const units::si::Time timePassed)
     }
 }
 
+//--------------------------------------------------------------------------------------------------
 void Button::resetTimer()
 {
     pressTimer = 0.0_s;
 }
 
+//--------------------------------------------------------------------------------------------------
 void Button::updateTimer(const units::si::Time timePassed)
 {
     pressTimer += timePassed;
 }
 
+//--------------------------------------------------------------------------------------------------
 units::si::Time Button::getPassedTime() const
 {
     return pressTimer;
