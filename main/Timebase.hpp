@@ -3,6 +3,7 @@
 #include "esp_log.h"
 #include "esp_sntp.h"
 
+#include "wrappers/Queue.hpp"
 #include "wrappers/sync.hpp"
 
 #include "date/date.h"
@@ -21,7 +22,9 @@ using namespace util::wrappers;
 class Timebase
 {
 public:
-	static constexpr auto PrintTag = "Timebase";
+    static constexpr auto PrintTag = "Timebase";
+    using Timestamp = std::chrono::time_point<std::chrono::system_clock>;
+    using TimestampQueue = util::wrappers::Queue<Timebase::Timestamp>;
 
     //--------------------------------------------------------------------------------------------------
     static void initTimeSychronization()
@@ -51,10 +54,23 @@ public:
     }
 
     //--------------------------------------------------------------------------------------------------
+    [[nodiscard]] static Timestamp getCurrentTimestamp()
+    {
+        return std::chrono::system_clock::now();
+    }
+
+    //--------------------------------------------------------------------------------------------------
     template <class Precision>
     [[nodiscard]] static std::string getISOCurrentTimestamp()
     {
         auto now = std::chrono::system_clock::now();
+        return date::format("%FT%TZ", date::floor<Precision>(now));
+    }
+
+    //--------------------------------------------------------------------------------------------------
+    template <class Precision>
+    [[nodiscard]] static std::string getISOTimestamp(Timestamp &now)
+    {
         return date::format("%FT%TZ", date::floor<Precision>(now));
     }
 };

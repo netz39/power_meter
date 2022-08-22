@@ -1,6 +1,7 @@
 idf_component_register(SRCS
     Application.cxx
     Button.cxx
+    HttpClient.cxx
     PulseDetector.cxx
     StatusLed.cxx
     Wireless.cxx

@@ -33,8 +33,17 @@ void PulseDetector::pulseCallback(Button::Action action)
     {
         ESP_LOGI(Tag, "valid pulse arrived");
         Timebase::printSystemTime();
+        Timebase::Timestamp currentTimestamp = Timebase::getCurrentTimestamp();
 
-        // ToDo: send to queue
+        if (!timestampQueue.send(currentTimestamp, 0))
+        {
+            // queue seems to be full, so we pop the first element and try it again
+            ESP_LOGW(Tag, "queue is full, overwrite first value");
+
+            timestampQueue.receive(0);
+            if (!timestampQueue.send(currentTimestamp, 0))
+                ESP_LOGE(Tag, "Queue is full and cannot drop old values to get new ones!");
+        }
     }
     break;
 
