@@ -14,9 +14,10 @@ public:
     static constexpr auto UpdateTime = 10.0_ms;
     static constexpr auto InputPin = gpio_num_t::GPIO_NUM_32;
 
-    explicit PulseDetector(Timebase::TimestampQueue &timestampQueue)
+    explicit PulseDetector(Timebase::TimestampQueue &timestampQueue, bool &pulseArrived)
         : TaskWithMemberFunctionBase("pulseDetectorTask", 1024, osPriorityNormal5), //
-          timestampQueue(timestampQueue)
+          timestampQueue(timestampQueue),                                           //
+          pulseArrived(pulseArrived)
     {
         constexpr auto Divisor = (MinimumPulseLength / UpdateTime).getMagnitude();
         static_assert(ceilf(Divisor) == Divisor,
@@ -28,6 +29,8 @@ protected:
 
 private:
     Timebase::TimestampQueue &timestampQueue;
+    bool &pulseArrived;
+
     util::wrappers::Gpio pulseInputGpio{InputPin};
     Button pulseInput{pulseInputGpio,                                           //
                       [this](Button::Action action) { pulseCallback(action); }, //

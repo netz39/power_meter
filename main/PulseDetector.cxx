@@ -30,6 +30,7 @@ void PulseDetector::pulseCallback(Button::Action action)
     case Button::Action::ShortPress:
     {
         ESP_LOGI(PrintTag, "valid pulse arrived");
+        pulseArrived = true;
         Timebase::printSystemTime();
         Timebase::Timestamp currentTimestamp = Timebase::getCurrentTimestamp();
 

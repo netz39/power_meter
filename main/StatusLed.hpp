@@ -6,16 +6,17 @@
 class StatusLed : public util::wrappers::TaskWithMemberFunctionBase
 {
 public:
-    explicit StatusLed(bool &isConnected)
+    explicit StatusLed(bool &isConnected, bool &pulseArrived)
         : TaskWithMemberFunctionBase("statusLedTask", 256, osPriorityBelowNormal3),
-          isConnected(isConnected) //
-          {};
+          isConnected(isConnected), //
+          pulseArrived(pulseArrived){};
 
 protected:
     void taskMain() override;
 
 private:
     bool &isConnected;
+    bool &pulseArrived;
 
     util::wrappers::Gpio ledGpio{gpio_num_t::GPIO_NUM_5};
 };
