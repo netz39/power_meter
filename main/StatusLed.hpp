@@ -1,5 +1,6 @@
 #pragma once
 
+#include "settings.hpp"
 #include "wrappers/Task.hpp"
 #include "wrappers/gpio.hpp"
 
@@ -18,5 +19,5 @@ private:
     bool &isConnected;
     bool &pulseArrived;
 
-    util::wrappers::Gpio ledGpio{gpio_num_t::GPIO_NUM_5};
+    util::wrappers::Gpio ledGpio{settings::StatusLedGpio};
 };

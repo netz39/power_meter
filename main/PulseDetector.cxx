@@ -16,9 +16,9 @@ using namespace util::wrappers;
 
     while (true)
     {
-        pulseInput.update(UpdateTime);
+        pulseInput.update(settings::DetectorUpdateTime);
 
-        vTaskDelayUntil(&lastWakeTime, toOsTicks(UpdateTime));
+        vTaskDelayUntil(&lastWakeTime, toOsTicks(settings::DetectorUpdateTime));
     }
 }
 

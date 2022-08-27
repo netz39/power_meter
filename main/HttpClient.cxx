@@ -1,21 +1,12 @@
 #include "helpers/freertos.hpp"
+#include "loginData.hpp"
+#include "settings.hpp"
 #include "wrappers/sync.hpp"
 
 #include "HttpClient.hpp"
 #include "esp_log.h"
 
 using namespace util::wrappers;
-
-namespace
-{
-constexpr auto DelayBetweenRetries = 5.0_s;
-
-constexpr auto EndpointName = "10.0.0.20";
-constexpr auto EndpointPort = 8080;
-constexpr auto EndpointPath = "/pulse";
-constexpr auto AuthKey = "Bearer abc";
-
-} // namespace
 
 //--------------------------------------------------------------------------------------------------
 void HttpClient::taskMain()
@@ -46,9 +37,10 @@ void HttpClient::taskMain()
             else
             {
                 ESP_LOGI(PrintTag, "Send was not successful. Resend it in %d seconds.",
-                         DelayBetweenRetries.getMagnitude<size_t>());
+                         settings::DelayBetweenRetries.getMagnitude<size_t>());
 
-                vTaskDelay(toOsTicks(DelayBetweenRetries)); // wait a little bit until next retry
+                vTaskDelay(
+                    toOsTicks(settings::DelayBetweenRetries)); // wait a little bit until next retry
                 ESP_LOGI(PrintTag, "Resending");
             }
         }
@@ -59,9 +51,9 @@ void HttpClient::taskMain()
 bool HttpClient::postDataAsJson(std::string &data)
 {
     esp_http_client_config_t config = {
-        .host = EndpointName,
-        .port = EndpointPort,
-        .path = EndpointPath,
+        .host = settings::EndpointName,
+        .port = settings::EndpointPort,
+        .path = settings::EndpointPath,
         //.disable_auto_redirect = true,
         .event_handler = HttpClient::httpEventHandler,
     };

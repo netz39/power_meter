@@ -6,19 +6,21 @@ The ESP32 detect the pulses outputing by a power meter and send it to an endpoin
 
 Currently the configurations are hardcoded. In the future you may change it to dynamic settings configuring over TCP or UART.
 
-Here is an overview of neccessary (not all) constants and their file locations:
+For `WifiSsid`, `WifiPassword` and `Authkey`, you must create a file named `loginData.hpp`, which is ignored by git, and define those constants here.
+AuthKey can be  like `Bearer abc`.
 
-| setting name       | description | file |
-|--------------------|-------------|------|
-| WifiSsid      | ssid of wireless network | loginData.hpp (create file and add #define - file is ignored by git) |
-| WifiPassword      | password of wireless network | loginData.hpp (create file and add #define - file is ignored by git) |
-| MinimumPulseLength | Specifies the minimum pulse length of power meter | PulseDetector.hpp |
-| InputPin           | pin number, at where the ESP is connected to power meters output | PulseDetector.hpp |
-| DelayBetweenRetries | delay between post retries after any failure | HttpClient.cxx |
-| EndpointName | domain or IP address of endpoint | HttpClient.cxx |
-| EndpointPort | port number of endpoint | HttpClient.cxx |
-| EndpointPath | like `/pulse` | HttpClient.cxx |
-| AuthKey      | like `Bearer abc` | HttpClient.cxx |
+Here is an overview of constants you can find in `settings.hpp`:
+
+| setting name       | description |
+|--------------------|-------------|
+| EndpointName | domain or IP address of endpoint |
+| EndpointPort | port number of endpoint |
+| EndpointPath | like `/pulse` |
+| DelayBetweenRetries | delay between post retries after any failure |
+| MinimumPulseLength | Specifies the minimum pulse length of power meter |
+| DetectorUpdateTime | polling time of pulse detector, must be an even divisor to `MinimumPulseLength` |
+| PulseInputPin      | pin number, at where the ESP is connected to power meters output |
+| StatusLedGpio      | pin number, at where the LED is connected |
 
 ## API
 
