@@ -8,6 +8,8 @@
 class PulseDetector : public util::wrappers::TaskWithMemberFunctionBase
 {
 public:
+    static constexpr auto PrintTag = "PulseDetector";
+
     static constexpr auto MinimumPulseLength = 30.0_ms;
     static constexpr auto UpdateTime = 10.0_ms;
     static constexpr auto InputPin = gpio_num_t::GPIO_NUM_32;

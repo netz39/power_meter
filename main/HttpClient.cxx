@@ -8,7 +8,6 @@ using namespace util::wrappers;
 
 namespace
 {
-constexpr auto Tag = "HttpClient";
 constexpr auto DelayBetweenRetries = 5.0_s;
 
 constexpr auto EndpointName = "10.0.0.20";
@@ -22,7 +21,7 @@ constexpr auto AuthKey = "Bearer abc";
 void HttpClient::taskMain()
 {
     sync::waitForAll(sync::TimeIsSynchronized);
-    ESP_LOGI(Tag, "Wait for pulses to post.");
+    ESP_LOGI(PrintTag, "Wait for pulses to post.");
 
     while (true)
     {
@@ -46,11 +45,11 @@ void HttpClient::taskMain()
             }
             else
             {
-                ESP_LOGI(Tag, "Send was not successful. Resend it in %d seconds.",
+                ESP_LOGI(PrintTag, "Send was not successful. Resend it in %d seconds.",
                          DelayBetweenRetries.getMagnitude<size_t>());
 
                 vTaskDelay(toOsTicks(DelayBetweenRetries)); // wait a little bit until next retry
-                ESP_LOGI(Tag, "Resending");
+                ESP_LOGI(PrintTag, "Resending");
             }
         }
     }
@@ -84,22 +83,24 @@ bool HttpClient::postDataAsJson(std::string &data)
         switch (httpStatusCode)
         {
         case 201:
-            ESP_LOGI(Tag, "POST was successful. HTTP status: %d", httpStatusCode);
+            ESP_LOGI(PrintTag, "POST was successful. HTTP status: %d", httpStatusCode);
             return true;
 
         case 400:
         case 401:
-            ESP_LOGE(Tag, "HTTP status: %d, content_length = %d", httpStatusCode, contentLength);
+            ESP_LOGE(PrintTag, "HTTP status: %d, content_length = %d", httpStatusCode,
+                     contentLength);
             return true; // becaus we want to reject this timestamp
 
         case 504:
         default:
-            ESP_LOGW(Tag, "HTTP status: %d, content_length = %d", httpStatusCode, contentLength);
+            ESP_LOGW(PrintTag, "HTTP status: %d, content_length = %d", httpStatusCode,
+                     contentLength);
             return false;
         }
     }
 
-    ESP_LOGE(Tag, "HTTP POST request failed: %s", esp_err_to_name(err));
+    ESP_LOGE(PrintTag, "HTTP POST request failed: %s", esp_err_to_name(err));
     return false;
 }
 
@@ -109,32 +110,32 @@ esp_err_t HttpClient::httpEventHandler(esp_http_client_event_t *event)
     switch (event->event_id)
     {
     case HTTP_EVENT_ERROR:
-        ESP_LOGD(Tag, "HTTP_EVENT_ERROR");
+        ESP_LOGD(PrintTag, "HTTP_EVENT_ERROR");
         break;
 
     case HTTP_EVENT_ON_CONNECTED:
-        ESP_LOGD(Tag, "HTTP_EVENT_ON_CONNECTED");
+        ESP_LOGD(PrintTag, "HTTP_EVENT_ON_CONNECTED");
         break;
 
     case HTTP_EVENT_HEADER_SENT:
-        ESP_LOGD(Tag, "HTTP_EVENT_HEADER_SENT");
+        ESP_LOGD(PrintTag, "HTTP_EVENT_HEADER_SENT");
         break;
 
     case HTTP_EVENT_ON_HEADER:
-        ESP_LOGD(Tag, "HTTP_EVENT_ON_HEADER, key=%s, value=%s", event->header_key,
+        ESP_LOGD(PrintTag, "HTTP_EVENT_ON_HEADER, key=%s, value=%s", event->header_key,
                  event->header_value);
         break;
 
     case HTTP_EVENT_ON_DATA:
-        ESP_LOGD(Tag, "HTTP_EVENT_ON_DATA, len=%d", event->data_len);
+        ESP_LOGD(PrintTag, "HTTP_EVENT_ON_DATA, len=%d", event->data_len);
         break;
 
     case HTTP_EVENT_ON_FINISH:
-        ESP_LOGD(Tag, "HTTP_EVENT_ON_FINISH");
+        ESP_LOGD(PrintTag, "HTTP_EVENT_ON_FINISH");
         break;
 
     case HTTP_EVENT_DISCONNECTED:
-        ESP_LOGD(Tag, "HTTP_EVENT_DISCONNECTED");
+        ESP_LOGD(PrintTag, "HTTP_EVENT_DISCONNECTED");
         break;
     }
 

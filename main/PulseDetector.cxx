@@ -7,12 +7,10 @@
 
 using namespace util::wrappers;
 
-static constexpr auto Tag = "PulseDetector";
-
 [[noreturn]] void PulseDetector::taskMain()
 {
     sync::waitForAll(sync::TimeIsSynchronized);
-    ESP_LOGI(Tag, "Start pulse detection.");
+    ESP_LOGI(PrintTag, "Start pulse detection.");
 
     auto lastWakeTime = xTaskGetTickCount();
 
@@ -31,28 +29,28 @@ void PulseDetector::pulseCallback(Button::Action action)
     {
     case Button::Action::ShortPress:
     {
-        ESP_LOGI(Tag, "valid pulse arrived");
+        ESP_LOGI(PrintTag, "valid pulse arrived");
         Timebase::printSystemTime();
         Timebase::Timestamp currentTimestamp = Timebase::getCurrentTimestamp();
 
         if (!timestampQueue.send(currentTimestamp, 0))
         {
             // queue seems to be full, so we pop the first element and try it again
-            ESP_LOGW(Tag, "queue is full, overwrite first value");
+            ESP_LOGW(PrintTag, "queue is full, overwrite first value");
 
             timestampQueue.receive(0);
             if (!timestampQueue.send(currentTimestamp, 0))
-                ESP_LOGE(Tag, "Queue is full and cannot drop old values to get new ones!");
+                ESP_LOGE(PrintTag, "Queue is full and cannot drop old values to get new ones!");
         }
     }
     break;
 
     case Button::Action::LongPress:
-        ESP_LOGE(Tag, "Long press arrived. This was not expected in this case. ");
+        ESP_LOGE(PrintTag, "Long press arrived. This was not expected in this case. ");
         break;
 
     case Button::Action::StopLongPress:
-        ESP_LOGW(Tag, "Long press stopped.");
+        ESP_LOGW(PrintTag, "Long press stopped.");
         break;
 
     default:
