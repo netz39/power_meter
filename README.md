@@ -1,4 +1,5 @@
 # power meter (firmware for ESP32)
+[![Build status](https://github.com/netz39/power_meter/actions/workflows/build.yml/badge.svg)](https://github.com/netz39/power_meter/actions/workflows/build.yml)
 
 The ESP32 detect the pulses outputing by a power meter and send it to an endpoint (REST-API). The endpoint used in Netz39 is implemented **[here](https://github.com/netz39/power-meter-pulse-gateway)**.
 
