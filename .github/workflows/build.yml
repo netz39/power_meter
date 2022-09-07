@@ -21,9 +21,10 @@ jobs:
       run: |
         cd main
         touch loginData.hpp
-        echo #define WifiSsid "ssid" >> loginData.hpp
-        echo #define WifiPassword "password" >> loginData.hpp
-        echo constexpr auto AuthKey = "Bearer abc"; >> loginData.hpp
+        echo '#define WifiSsid "ssid"' >> loginData.hpp
+        echo '#define WifiPassword "password"' >> loginData.hpp
+        echo 'constexpr auto AuthKey = "Bearer abc";' >> loginData.hpp
+        cat loginData.hpp
       shell: bash
 
     - name: esp-idf build
