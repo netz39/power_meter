@@ -6,13 +6,13 @@ The ESP32 detect the pulses outputing by a power meter and send it to an endpoin
 
 Currently the configurations are hardcoded. In the future you may change it to dynamic settings configuring over TCP or UART.
 
-For `WifiSsid`, `WifiPassword` and `Authkey`, you must create a file named `loginData.hpp`, which is ignored by git:
+For `WifiSsid`, `WifiPassword` and `Authkey` create a file named `loginData.hpp` in `main` folder. This file is in the gitignore.
 ```cpp
-// both must be defines
+// both must be defined with #define
 #define WifiSsid "Ssid"
 #define WifiPassword "password"
 
-// must be constexpr instead define
+// must be constexpr instead #define
 constexpr auto AuthKey = "Bearer abc";
 ```
 
