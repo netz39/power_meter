@@ -9,6 +9,12 @@
 // called by ESP-IDF
 extern "C" void app_main(void)
 {
+    static constexpr auto PrintTag = "[Application]";
+
+    ESP_LOGI(PrintTag, "Start application.");
+    ESP_LOGI(PrintTag, "Free memory: %d bytes", esp_get_free_heap_size());
+    ESP_LOGI(PrintTag, "IDF version: %s", esp_get_idf_version());
+
     static auto app = std::make_unique<Application>();
     app->run();
 }

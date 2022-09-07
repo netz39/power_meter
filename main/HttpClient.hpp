@@ -11,7 +11,7 @@
 
 class HttpClient : public util::wrappers::TaskWithMemberFunctionBase
 {
-    static constexpr auto PrintTag = "HttpClient";
+    static constexpr auto PrintTag = "[HttpClient]";
 
 public:
     HttpClient(bool &isConnectedToWifi, Timebase::TimestampQueue &timestampQueue)

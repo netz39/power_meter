@@ -9,7 +9,7 @@
 class PulseDetector : public util::wrappers::TaskWithMemberFunctionBase
 {
 public:
-    static constexpr auto PrintTag = "PulseDetector";
+    static constexpr auto PrintTag = "[PulseDetector]";
 
     explicit PulseDetector(Timebase::TimestampQueue &timestampQueue, bool &pulseArrived)
         : TaskWithMemberFunctionBase("pulseDetectorTask", 1024, osPriorityNormal5), //

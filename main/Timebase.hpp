@@ -22,7 +22,7 @@ using namespace util::wrappers;
 class Timebase
 {
 public:
-    static constexpr auto PrintTag = "Timebase";
+    static constexpr auto PrintTag = "[Timebase]";
     using Timestamp = std::chrono::time_point<std::chrono::system_clock>;
     using TimestampQueue = util::wrappers::Queue<Timebase::Timestamp>;
 
@@ -50,7 +50,7 @@ public:
     static void printSystemTime()
     {
         ESP_LOGI(PrintTag, "The current UTC is %s",
-                 getISOCurrentTimestamp<std::chrono::milliseconds>().c_str());
+                 getISOTimestamp<std::chrono::milliseconds>(getCurrentTimestamp()).c_str());
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -61,15 +61,7 @@ public:
 
     //--------------------------------------------------------------------------------------------------
     template <class Precision>
-    [[nodiscard]] static std::string getISOCurrentTimestamp()
-    {
-        auto now = std::chrono::system_clock::now();
-        return date::format("%FT%TZ", date::floor<Precision>(now));
-    }
-
-    //--------------------------------------------------------------------------------------------------
-    template <class Precision>
-    [[nodiscard]] static std::string getISOTimestamp(Timestamp &now)
+    [[nodiscard]] static std::string getISOTimestamp(Timestamp now)
     {
         return date::format("%FT%TZ", date::floor<Precision>(now));
     }

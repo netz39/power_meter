@@ -82,7 +82,7 @@ bool HttpClient::postDataAsJson(std::string &data)
         case 401:
             ESP_LOGE(PrintTag, "HTTP status: %d, content_length = %d", httpStatusCode,
                      contentLength);
-            return true; // becaus we want to reject this timestamp
+            return true; // because we want to reject this timestamp
 
         case 504:
         default:
