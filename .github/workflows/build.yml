@@ -14,6 +14,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Create gitignored loginData file
+        run: |
+          touch src/loginData.hpp
+          echo #define WifiSsid "ssid" >> src/loginData.hpp
+          echo #define WifiPassword "password" >> src/loginData.hpp
+          echo #define AuthKey "Bearer abc" >> src/loginData.hpp
+
     - name: Checkout repo
       uses: actions/checkout@v2
       with:
