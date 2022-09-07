@@ -14,7 +14,6 @@ jobs:
     steps:
     - name: Create gitignored loginData file
       run: |
-        cd main
         touch loginData.hpp
         echo #define WifiSsid "ssid" >> loginData.hpp
         echo #define WifiPassword "password" >> loginData.hpp
