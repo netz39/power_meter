@@ -90,12 +90,12 @@ void Wireless::startStation()
 void Wireless::eventHandler(void *arg, esp_event_base_t eventBase, int32_t eventId, void *eventData)
 {
     static bool firstReconnect = true;
-    constexpr auto Tag = "Wireless::eventHandler";
+    constexpr auto PrintTag = "[Wireless::eventHandler]";
 
     if (eventBase == WIFI_EVENT && eventId == WIFI_EVENT_STA_START)
     {
         esp_wifi_connect();
-        ESP_LOGI(Tag, "WIFI_EVENT_STA_START");
+        ESP_LOGI(PrintTag, "WIFI_EVENT_STA_START");
     }
 
     else if (eventBase == WIFI_EVENT && eventId == WIFI_EVENT_STA_DISCONNECTED)
@@ -107,15 +107,15 @@ void Wireless::eventHandler(void *arg, esp_event_base_t eventBase, int32_t event
         sync::signal(sync::ConnectionFailed);
 
         firstReconnect = false;
-        ESP_LOGI(Tag, "try to reconnnect");
+        ESP_LOGI(PrintTag, "try to reconnnect");
         esp_wifi_connect();
     }
     else if (eventBase == IP_EVENT && eventId == IP_EVENT_STA_GOT_IP)
     {
-        ESP_LOGI(Tag, "Established a wifi connection to [%s]", WifiSsid);
+        ESP_LOGI(PrintTag, "Established a wifi connection to [%s]", WifiSsid);
         firstReconnect = true;
         ip_event_got_ip_t *event = static_cast<ip_event_got_ip_t *>(eventData);
-        ESP_LOGI(Tag, "ip address: " IPSTR, IP2STR(&event->ip_info.ip));
+        ESP_LOGI(PrintTag, "ip address: " IPSTR, IP2STR(&event->ip_info.ip));
 
         sync::clearEvents(sync::ConnectionFailed);
         sync::signal(sync::ConnectedToWifi);

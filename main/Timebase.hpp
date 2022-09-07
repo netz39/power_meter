@@ -22,7 +22,7 @@ using namespace util::wrappers;
 class Timebase
 {
 public:
-    static constexpr auto PrintTag = "Timebase";
+    static constexpr auto PrintTag = "[Timebase]";
     using Timestamp = std::chrono::time_point<std::chrono::system_clock>;
     using TimestampQueue = util::wrappers::Queue<Timebase::Timestamp>;
 
