@@ -12,18 +12,20 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+    - name: Checkout repo
+      uses: actions/checkout@v2
+      with:
+        submodules: 'recursive'
+
     - name: Create gitignored loginData file
       run: |
+		cd main
         touch loginData.hpp
         echo #define WifiSsid "ssid" >> loginData.hpp
         echo #define WifiPassword "password" >> loginData.hpp
         echo #define AuthKey "Bearer abc" >> loginData.hpp
       shell: bash
 
-    - name: Checkout repo
-      uses: actions/checkout@v2
-      with:
-        submodules: 'recursive'
     - name: esp-idf build
       uses: espressif/esp-idf-ci-action@v1
       with:
