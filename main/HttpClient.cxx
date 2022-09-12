@@ -80,13 +80,13 @@ bool HttpClient::postDataAsJson(std::string &data)
 
         case 400:
         case 401:
-            ESP_LOGE(PrintTag, "HTTP status: %d, content_length = %d", httpStatusCode,
-                     contentLength);
+        default:
+            ESP_LOGE(PrintTag, "HTTP status: %d, content_length = %d\ntimestamp will rejected",
+                     httpStatusCode, contentLength);
             return true; // because we want to reject this timestamp
 
         case 502:
         case 504:
-        default:
             ESP_LOGW(PrintTag, "HTTP status: %d, content_length = %d", httpStatusCode,
                      contentLength);
             return false;
