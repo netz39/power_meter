@@ -6,8 +6,8 @@
 namespace settings
 {
 // HTTP stuff
-constexpr auto EndpointName = "radon";
-constexpr auto EndpointPort = 9003;
+constexpr auto EndpointName = "https://pwr-meter-pulse-gw-19i.svc.n39.eu";
+constexpr auto EndpointPort = 443;
 constexpr auto EndpointPath = "/pulse";
 constexpr auto DelayBetweenRetries = 10.0_s;
 
