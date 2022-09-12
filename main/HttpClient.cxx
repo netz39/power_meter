@@ -84,6 +84,7 @@ bool HttpClient::postDataAsJson(std::string &data)
                      contentLength);
             return true; // because we want to reject this timestamp
 
+        case 502:
         case 504:
         default:
             ESP_LOGW(PrintTag, "HTTP status: %d, content_length = %d", httpStatusCode,
