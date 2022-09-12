@@ -18,13 +18,13 @@ void StatusLed::taskMain()
         }
         else if (pulseArrived)
         {
-            setLedDuty(50);
+            setLedDuty(25);
             vTaskDelay(pdMS_TO_TICKS(700));
             pulseArrived = false;
         }
         else
         {
-            setLedDuty(5);
+            setLedDuty(1);
             vTaskDelay(toOsTicks(50.0_ms));
         }
     }
