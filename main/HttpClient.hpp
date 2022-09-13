@@ -15,7 +15,7 @@ class HttpClient : public util::wrappers::TaskWithMemberFunctionBase
 
 public:
     HttpClient(bool &isConnectedToWifi, Timebase::TimestampQueue &timestampQueue)
-        : TaskWithMemberFunctionBase("httpClientTask", 1024, osPriorityNormal2), //
+        : TaskWithMemberFunctionBase("httpClientTask", 2048, osPriorityNormal2), //
           isConnectedToWifi(isConnectedToWifi),                                  //
           timestampQueue(timestampQueue)                                         //
           {};
