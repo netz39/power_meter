@@ -6,9 +6,7 @@
 namespace settings
 {
 // HTTP stuff
-constexpr auto EndpointName = "https://pwr-meter-pulse-gw-19i.svc.n39.eu";
-constexpr auto EndpointPort = 443;
-constexpr auto EndpointPath = "/pulse";
+constexpr auto EndpointUrl = "https://pwr-meter-pulse-gw-19i.svc.n39.eu/pulse";
 constexpr auto DelayBetweenRetries = 10.0_s;
 
 // PulseDetector

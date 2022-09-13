@@ -51,11 +51,9 @@ void HttpClient::taskMain()
 bool HttpClient::postDataAsJson(std::string &data)
 {
     esp_http_client_config_t config = {
-        .host = settings::EndpointName,
-        .port = settings::EndpointPort,
-        .path = settings::EndpointPath,
+        .url = settings::EndpointUrl,
         //.disable_auto_redirect = true,
-        .event_handler = HttpClient::httpEventHandler,
+        .event_handler = HttpClient::httpEventHandler
     };
 
     EspClient espClient(config);
