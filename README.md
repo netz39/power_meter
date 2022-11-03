@@ -17,7 +17,7 @@ For `WifiSsid`, `WifiPassword` and `Authkey` create a file named `loginData.hpp`
 constexpr auto AuthKey = "Bearer abc";
 ```
 
-Here is an overview of constants you can find in `settings.hpp`:
+Here is an overview of constants you can find in `main/settings.hpp`:
 
 | setting name       | description |
 |--------------------|-------------|
