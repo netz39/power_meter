@@ -21,9 +21,7 @@ Here is an overview of constants you can find in `settings.hpp`:
 
 | setting name       | description |
 |--------------------|-------------|
-| EndpointName | domain or IP address of endpoint |
-| EndpointPort | port number of endpoint |
-| EndpointPath | like `/pulse` |
+| EndpointUrl | endpoint URL in URI schemata |
 | DelayBetweenRetries | delay between post retries after any failure |
 | MinimumPulseLength | Specifies the minimum pulse length of power meter |
 | DetectorUpdateTime | polling time of pulse detector, must be an even divisor to `MinimumPulseLength` |
