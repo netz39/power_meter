@@ -17,14 +17,13 @@ jobs:
       with:
         submodules: 'recursive'
 
-    - name: Create gitignored loginData file
+    - name: Create gitignored loginData file with github secrets
       run: |
         cd main
         touch loginData.hpp
-        echo '#define WifiSsid "ssid"' >> loginData.hpp
-        echo '#define WifiPassword "password"' >> loginData.hpp
-        echo 'constexpr auto AuthKey = "Bearer abc";' >> loginData.hpp
-        cat loginData.hpp
+        echo '#define WifiSsid "'${{ secrets.WIFI_SSID }}'"' >> loginData.hpp
+        echo '#define WifiPassword "'${{ secrets.WIFI_PASSWORD }}'"' >> loginData.hpp
+        echo 'constexpr auto AuthKey = "'${{ secrets.AUTH_TOKEN }}'";' >> loginData.hpp
       shell: bash
 
     - name: esp-idf build
