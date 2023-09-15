@@ -22,7 +22,6 @@ void Wireless::taskMain(void *)
 {
     startNvs();
     startStation();
-    Timebase::initTimeSychronization();
 
     while (true)
     {
