@@ -1,7 +1,7 @@
 #pragma once
 
 #include "units/si/time.hpp"
-#include "wrappers/gpio.hpp"
+#include "util/gpio.hpp"
 
 namespace settings
 {

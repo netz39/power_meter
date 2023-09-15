@@ -15,7 +15,7 @@ public:
         instance = this;
     }
 
-    void run();
+    [[noreturn]] void run();
 
     static Application &getApplicationInstance();
 
@@ -28,8 +28,8 @@ private:
     Timebase::TimestampQueue timestampQueue{8192};
 
     Wireless wireless{isConnected};
-    StatusLed statusLed{isConnected,pulseArrived};
-    PulseDetector pulseDetector{timestampQueue,pulseArrived};
+    StatusLed statusLed{isConnected, pulseArrived};
+    PulseDetector pulseDetector{timestampQueue, pulseArrived};
     HttpClient restClient{isConnected, timestampQueue};
 
     static inline Application *instance{nullptr};

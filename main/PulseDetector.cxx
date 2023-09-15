@@ -1,13 +1,13 @@
 #include "PulseDetector.hpp"
 #include "Timebase.hpp"
 #include "helpers/freertos.hpp"
-#include "wrappers/sync.hpp"
+#include "sync.hpp"
 
 #include "esp_log.h"
 
 using namespace util::wrappers;
 
-[[noreturn]] void PulseDetector::taskMain()
+void PulseDetector::taskMain(void *)
 {
     sync::waitForAll(sync::TimeIsSynchronized);
     ESP_LOGI(PrintTag, "Start pulse detection.");

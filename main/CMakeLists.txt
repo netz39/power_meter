@@ -4,7 +4,15 @@ idf_component_register(SRCS
     HttpClient.cxx
     PulseDetector.cxx
     StatusLed.cxx
+    sync.cxx
     Wireless.cxx
+
+    REQUIRES
+        driver
+        esp_http_client
+        esp_wifi
+        mbedtls
+        nvs_flash
 
     INCLUDE_DIRS ".")
 

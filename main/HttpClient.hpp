@@ -44,7 +44,7 @@ public:
     };
 
 protected:
-    void taskMain() override;
+    void taskMain(void *) override;
 
 private:
     bool &isConnectedToWifi;

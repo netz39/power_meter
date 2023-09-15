@@ -1,7 +1,7 @@
 #include "helpers/freertos.hpp"
 #include "loginData.hpp"
 #include "settings.hpp"
-#include "wrappers/sync.hpp"
+#include "sync.hpp"
 
 #include "HttpClient.hpp"
 #include "esp_crt_bundle.h"
@@ -10,7 +10,7 @@
 using namespace util::wrappers;
 
 //--------------------------------------------------------------------------------------------------
-void HttpClient::taskMain()
+void HttpClient::taskMain(void *)
 {
     sync::waitForAll(sync::TimeIsSynchronized);
     ESP_LOGI(PrintTag, "Wait for pulses to post.");
@@ -51,12 +51,10 @@ void HttpClient::taskMain()
 //--------------------------------------------------------------------------------------------------
 bool HttpClient::postDataAsJson(std::string &data)
 {
-    esp_http_client_config_t config = {
-        .url = settings::EndpointUrl,
-        //.disable_auto_redirect = true,
-        .event_handler = HttpClient::httpEventHandler,
-        .crt_bundle_attach = esp_crt_bundle_attach
-    };
+    esp_http_client_config_t config = {.url = settings::EndpointUrl,
+                                       //.disable_auto_redirect = true,
+                                       .event_handler = HttpClient::httpEventHandler,
+                                       .crt_bundle_attach = esp_crt_bundle_attach};
 
     EspClient espClient(config);
 
@@ -81,13 +79,13 @@ bool HttpClient::postDataAsJson(std::string &data)
         case 400:
         case 401:
         default:
-            ESP_LOGE(PrintTag, "HTTP status: %d, content_length = %d\ntimestamp will rejected",
+            ESP_LOGE(PrintTag, "HTTP status: %d, content_length = %lld\ntimestamp will rejected",
                      httpStatusCode, contentLength);
             return true; // because we want to reject this timestamp
 
         case 502:
         case 504:
-            ESP_LOGW(PrintTag, "HTTP status: %d, content_length = %d", httpStatusCode,
+            ESP_LOGW(PrintTag, "HTTP status: %d, content_length = %lld", httpStatusCode,
                      contentLength);
             return false;
         }
@@ -129,6 +127,10 @@ esp_err_t HttpClient::httpEventHandler(esp_http_client_event_t *event)
 
     case HTTP_EVENT_DISCONNECTED:
         ESP_LOGD(PrintTag, "HTTP_EVENT_DISCONNECTED");
+        break;
+
+    case HTTP_EVENT_REDIRECT:
+        ESP_LOGD(PrintTag, "HTTP_EVENT_REDIRECT");
         break;
     }
 
