@@ -1,4 +1,4 @@
-#include "wrappers/sync.hpp"
+#include "sync.hpp"
 
 namespace
 {

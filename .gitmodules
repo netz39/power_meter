@@ -1,3 +1,7 @@
 [submodule "main/components/date"]
 	path = main/components/date
 	url = https://github.com/HowardHinnant/date.git
+[submodule "util"]
+	path = main/components/util
+	url = ../../MG-5/util.git
+	branch = esp32
