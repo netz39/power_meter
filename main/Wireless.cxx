@@ -4,7 +4,7 @@
 
 #include "Timebase.hpp"
 #include "Wireless.hpp"
-#include "wrappers/sync.hpp"
+#include "sync.hpp"
 
 #include "esp_event.h"
 #include "esp_log.h"
@@ -18,11 +18,10 @@
 using namespace util::wrappers;
 
 //--------------------------------------------------------------------------------------------------
-void Wireless::taskMain()
+void Wireless::taskMain(void *)
 {
     startNvs();
     startStation();
-    Timebase::initTimeSychronization();
 
     while (true)
     {

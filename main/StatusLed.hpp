@@ -2,8 +2,8 @@
 
 #include "driver/ledc.h"
 #include "settings.hpp"
+#include "util/gpio.hpp"
 #include "wrappers/Task.hpp"
-#include "wrappers/gpio.hpp"
 
 class StatusLed : public util::wrappers::TaskWithMemberFunctionBase
 {
@@ -20,7 +20,7 @@ public:
           pulseArrived(pulseArrived){};
 
 protected:
-    void taskMain() override;
+    void taskMain(void *) override;
 
 private:
     bool &isConnected;

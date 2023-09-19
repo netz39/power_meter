@@ -1,12 +1,12 @@
 #pragma once
 
 #include "units/si/time.hpp"
-#include "wrappers/gpio.hpp"
+#include "util/gpio.hpp"
 
 #include <functional>
 
 using units::si::Time;
-using util::wrappers::Gpio;
+using util::Gpio;
 
 class Button
 {

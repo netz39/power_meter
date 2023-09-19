@@ -23,13 +23,13 @@ public:
     }
 
 protected:
-    void taskMain() override;
+    [[noreturn]] void taskMain(void *) override;
 
 private:
     Timebase::TimestampQueue &timestampQueue;
     bool &pulseArrived;
 
-    util::wrappers::Gpio pulseInputGpio{settings::PulseInputPin};
+    util::Gpio pulseInputGpio{settings::PulseInputPin};
     Button pulseInput{pulseInputGpio,                                           //
                       [this](Button::Action action) { pulseCallback(action); }, //
                       settings::MinimumPulseLength};

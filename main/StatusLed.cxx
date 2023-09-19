@@ -2,7 +2,7 @@
 
 #include "helpers/freertos.hpp"
 
-void StatusLed::taskMain()
+void StatusLed::taskMain(void *)
 {
     initLedPwm();
 
